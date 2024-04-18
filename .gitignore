@@ -1,0 +1,5 @@
+.venv/
+.vscode/
+ffmpeg/
+build/*.exe
+*.ico

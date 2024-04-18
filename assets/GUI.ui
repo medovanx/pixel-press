@@ -1,0 +1,525 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="windowModality">
+   <enum>Qt::NonModal</enum>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>501</width>
+    <height>387</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Pixel Press</string>
+  </property>
+  <property name="whatsThis">
+   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Hope you enjoy the program! :)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+  </property>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>481</width>
+     <height>371</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="gridLayout_3">
+    <item row="9" column="2">
+     <widget class="QComboBox" name="watermark_position">
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="acceptDrops">
+       <bool>false</bool>
+      </property>
+      <property name="autoFillBackground">
+       <bool>false</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QComboBox {
+    border: 0.5px solid gray;
+    border-radius: 4px;
+    padding: 4px;
+	font-size: 12px;
+    background-color: white;
+}
+
+</string>
+      </property>
+      <property name="frame">
+       <bool>true</bool>
+      </property>
+      <item>
+       <property name="text">
+        <string>Top-right</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Top-left</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Bottom-right</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Bottom-left</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item row="12" column="0" colspan="3">
+     <widget class="QPushButton" name="process_btn">
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton{color: #FFFFFF;
+            font-family: Verdana;
+            font-size: 15px;
+            font-weight: bold;
+            padding: 6px;
+            background-color: #1BC466;
+            border-radius: 10px;}
+
+QPushButton:hover {
+background:#159e51;
+}</string>
+      </property>
+      <property name="text">
+       <string>Compress</string>
+      </property>
+     </widget>
+    </item>
+    <item row="9" column="0">
+     <widget class="QLabel" name="position">
+      <property name="styleSheet">
+       <string notr="true">font: 8pt &quot;MS Shell Dlg 2&quot;;</string>
+      </property>
+      <property name="text">
+       <string>Watermark position:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="input_label">
+      <property name="styleSheet">
+       <string notr="true">font: 8pt &quot;MS Shell Dlg 2&quot;;</string>
+      </property>
+      <property name="text">
+       <string>Original video:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="2">
+     <widget class="QPushButton" name="intro_btn">
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton{color: #FFFFFF;
+            font-family: Verdana;
+            font-size: 13px;
+            font-weight: bold;
+            padding: 5px;
+            background-color: #1B88C4;
+            border-radius:8px;}
+QPushButton:hover{
+background: #009faf;
+}</string>
+      </property>
+      <property name="text">
+       <string>Browse</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0" colspan="3">
+     <widget class="Line" name="line">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="14" column="0" colspan="3">
+     <widget class="QLabel" name="status_label">
+      <property name="font">
+       <font>
+        <family>MS Shell Dlg 2</family>
+        <pointsize>12</pointsize>
+        <weight>50</weight>
+        <italic>false</italic>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="autoFillBackground">
+       <bool>false</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="textFormat">
+       <enum>Qt::RichText</enum>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
+      </property>
+      <property name="openExternalLinks">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="0">
+     <widget class="QLabel" name="watermark_size_label">
+      <property name="styleSheet">
+       <string notr="true">font: 8pt &quot;MS Shell Dlg 2&quot;;</string>
+      </property>
+      <property name="text">
+       <string>Watermark size:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="13" column="2">
+     <widget class="QCheckBox" name="debug_btn">
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="whatsThis">
+       <string>Check this for debugging</string>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="autoFillBackground">
+       <bool>false</bool>
+      </property>
+      <property name="text">
+       <string>Debug mode</string>
+      </property>
+      <property name="tristate">
+       <bool>false</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="0">
+     <widget class="QLabel" name="watermark_label">
+      <property name="styleSheet">
+       <string notr="true">font: 8pt &quot;MS Shell Dlg 2&quot;;</string>
+      </property>
+      <property name="text">
+       <string>Watermark file:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="1">
+     <widget class="QLineEdit" name="watermark_file">
+      <property name="styleSheet">
+       <string notr="true">QLineEdit {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 4px;
+    background-color: rgb(255, 255, 255);
+    color: #333;
+}
+
+QLineEdit:focus {
+    border: 1.5px solid #4da8da;
+    border-radius: 4px;
+}
+</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="placeholderText">
+       <string>Watermark file location</string>
+      </property>
+      <property name="clearButtonEnabled">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="0" colspan="3">
+     <widget class="Line" name="line_2">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="2">
+     <widget class="QPushButton" name="watermark_btn">
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton{color: #FFFFFF;
+            font-family: Verdana;
+            font-size: 13px;
+            font-weight: bold;
+            padding: 5px;
+            background-color: #1B88C4;
+            border-radius:8px;}
+QPushButton:hover{
+background: #009faf;}</string>
+      </property>
+      <property name="text">
+       <string>Browse</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QLineEdit" name="input_file">
+      <property name="styleSheet">
+       <string notr="true">QLineEdit {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 4px;
+    background-color: rgb(255, 255, 255);
+    color: #333;
+}
+
+QLineEdit:focus {
+    border: 1.5px solid #4da8da;
+    border-radius: 4px;
+}
+</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="placeholderText">
+       <string>Video file location</string>
+      </property>
+      <property name="clearButtonEnabled">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0">
+     <widget class="QLabel" name="output_label">
+      <property name="styleSheet">
+       <string notr="true">font: 8pt &quot;MS Shell Dlg 2&quot;;</string>
+      </property>
+      <property name="text">
+       <string>Output to:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="2">
+     <widget class="QPushButton" name="input_btn">
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton{color: #FFFFFF;
+            font-family: Verdana;
+            font-size: 13px;
+            font-weight: bold;
+            padding: 5px;
+            background-color: #1B88C4;
+            border-radius:8px;}
+QPushButton:hover{
+background: #009faf;}</string>
+      </property>
+      <property name="text">
+       <string>Browse</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="1">
+     <widget class="QLineEdit" name="output_file">
+      <property name="styleSheet">
+       <string notr="true">QLineEdit {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 4px;
+    background-color: rgb(255, 255, 255);
+    color: #333;
+}
+
+QLineEdit:focus {
+    border: 1.5px solid #4da8da;
+    border-radius: 4px;
+}
+</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="placeholderText">
+       <string>Where to save the video?</string>
+      </property>
+      <property name="clearButtonEnabled">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="17" column="2">
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0">
+       <widget class="QLabel" name="ffmpeg_version">
+        <property name="maximumSize">
+         <size>
+          <width>140</width>
+          <height>37</height>
+         </size>
+        </property>
+        <property name="statusTip">
+         <string/>
+        </property>
+        <property name="whatsThis">
+         <string/>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="version">
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="text">
+         <string>Version: 2.1.2 (beta)</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="0" column="1">
+     <widget class="QLineEdit" name="intro_file">
+      <property name="styleSheet">
+       <string notr="true">QLineEdit {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 4px;
+    background-color: rgb(255, 255, 255);
+    color: #333;
+}
+
+QLineEdit:focus {
+    border: 1.5px solid #4da8da;
+    border-radius: 4px;
+}
+</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="placeholderText">
+       <string>Intro video location</string>
+      </property>
+      <property name="clearButtonEnabled">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="2">
+     <widget class="QLineEdit" name="watermark_size">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="autoFillBackground">
+       <bool>false</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLineEdit {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 3px;
+    background-color: rgb(255, 255, 255);
+    color: #333;
+}
+
+QLineEdit:focus {
+    border: 1.5px solid #4da8da;
+    border-radius: 4px;
+}</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="placeholderText">
+       <string>125x125</string>
+      </property>
+      <property name="clearButtonEnabled">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QLabel" name="intro_label">
+      <property name="styleSheet">
+       <string notr="true">font: 8pt &quot;MS Shell Dlg 2&quot;;</string>
+      </property>
+      <property name="text">
+       <string>Intro video:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="2">
+     <widget class="QPushButton" name="output_btn">
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton{color: #FFFFFF;
+            font-family: Verdana;
+            font-size: 13px;
+            font-weight: bold;
+            padding: 5px;
+            background-color: #1B88C4;
+            border-radius:8px;}
+QPushButton:hover{
+background: #009faf;}</string>
+      </property>
+      <property name="text">
+       <string>Browse</string>
+      </property>
+     </widget>
+    </item>
+    <item row="17" column="0" colspan="2">
+     <widget class="QLabel" name="author">
+      <property name="styleSheet">
+       <string notr="true">font: 8pt &quot;MS Shell Dlg 2&quot;;</string>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;© Mohamed Darwesh (&lt;a href=&quot;https://github.com/medovanx&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;@&lt;/span&gt;&lt;/a&gt;&lt;a href=&quot;www.facebook.com/medovanx&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;medovanx&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="openExternalLinks">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
