@@ -2,6 +2,9 @@
 
 Pixel Press is a simple yet powerful video processing tool that allows you to compress videos and overlay logos with ease.
 
+  ![image](https://github.com/medovanx/pixel-press/assets/29468096/e85b54fd-0244-43cd-8fb1-823fb96de3cb)
+
+
 ## Prerequisites
 
 Before using Pixel Press, you need to have FFmpeg installed on your system.
