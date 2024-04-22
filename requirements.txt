@@ -1,2 +1,5 @@
 pyqt5
 ffmpeg-python
+
+# For building
+auto-py-to-exe
