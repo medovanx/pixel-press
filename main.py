@@ -99,7 +99,9 @@ class PixelPress(QWidget, Ui_MainWindow):
     def _getOriginalVideo(self, input_path, scale='1280x720') -> tuple:
         """Get the original video and audio streams"""
         input_stream = ffmpeg.input(f'"{input_path}"')
-        return input_stream.video.filter('scale', size=scale), input_stream.audio
+        video_stream = input_stream.video.filter('scale', size=scale).filter('setsar', '1')
+        audio_stream = input_stream.audio
+        return video_stream, audio_stream
     
     def _addWatermark(self, video_stream, watermark_path, logo_size, position) -> ffmpeg.nodes.FilterableStream:
         """Add a watermark to the video"""
