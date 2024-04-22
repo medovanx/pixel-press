@@ -3,3 +3,5 @@
 ffmpeg/
 build/*.exe
 *.ico
+__pycache__/
+desktop.ini
