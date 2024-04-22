@@ -400,7 +400,7 @@ QLineEdit:focus {
          <string notr="true"/>
         </property>
         <property name="text">
-         <string>Version: 2.1.2 (beta)</string>
+         <string>Version: 2.1.2-beta</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>

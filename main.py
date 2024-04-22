@@ -2,64 +2,17 @@ from PyQt5 import uic, QtGui, QtCore
 from PyQt5.QtWidgets import QApplication, QWidget, QFileDialog
 from PyQt5.QtCore import QDir
 from PyQt5.QtGui import *
-from PyQt5.QtCore import QThread, pyqtSignal
 
-import datetime, re
+import datetime
 import sys, subprocess, os
 import ffmpeg
 
-def resource_path(relative_path):
-    try:
-        base_path = sys._MEIPASS
-    except Exception:
-        base_path = os.path.abspath(".")
+from ffmpeg_thread import FFmpegProcessThread
+from helpers import resource_path
 
-    return os.path.join(base_path, relative_path)
-##################### Load the User Interface file #####################
+
 Ui_MainWindow, QtBaseClass = uic.loadUiType(resource_path(r"assets\GUI.ui"))
 
-class FFmpegProcessThread(QThread):
-    progress_signal = pyqtSignal(float)
-    finished_signal = pyqtSignal()
-
-    def __init__(self, cmd, total_duration):
-        super().__init__()
-        self.cmd = cmd
-        self.total_duration = total_duration
-        self.is_cancelled = False  # Add a flag to track if the thread should be cancelled
-        self.start_time = None
-        self.end_time = None
-
-    def run(self):
-        process = subprocess.Popen(
-            self.cmd,
-            shell=True,
-            stderr=subprocess.PIPE,
-            text=True
-        )
-        time_pattern = r'time=(\d{2}):(\d{2}):(\d{2})\.(\d+)\s'
-
-        while True:
-            if self.is_cancelled:  # Check if the thread should be cancelled
-                process.terminate()  # Terminate the subprocess
-                break
-
-            output_line = process.stderr.readline()
-            match = re.search(time_pattern, output_line)
-            if match:
-                hours, minutes, seconds, mseconds = map(float, match.groups())
-                total_seconds = hours * 3600 + minutes * 60 + seconds + mseconds / 1000
-                progress = total_seconds / self.total_duration * 100
-                self.progress_signal.emit(progress)
-
-            if output_line == '' and process.poll() is not None:
-                break
-
-        process.wait()
-        self.finished_signal.emit()
-    def cancel(self):
-        self.is_cancelled = True
-        os.system("taskkill /f /im ffmpeg.exe")
 class PixelPress(QWidget, Ui_MainWindow):
     def __init__(self):
         super().__init__()
@@ -83,7 +36,7 @@ class PixelPress(QWidget, Ui_MainWindow):
         self.initial_directory = str(QDir.homePath()) + "/Desktop"
 
     def _checkFFmpeg(self):
-        # Run the ffmpeg -version command and capture its output
+        """Check if FFmpeg is installed on the system"""
         try:
             result = subprocess.check_output(['ffmpeg', '-version'], stderr=subprocess.STDOUT, text=True)
             version_lines = [line for line in result.split('\n') if line.startswith('ffmpeg version')]
@@ -156,27 +109,25 @@ class PixelPress(QWidget, Ui_MainWindow):
         overlay_stream = video_stream.overlay(watermark.filter('scale', size=logo_size), x=x, y=y)
         return overlay_stream
     
-    def _SwitchButtonToCompression(self):
-        '''Switch the button to "Compress"'''
-        self.process_btn.setText("Compress")
-        self.process_btn.setStyleSheet("QPushButton {color: #FFFFFF; font-family: Verdana; font-size: 15px; font-weight: bold; padding: 6px; background-color: #1BC466; border-radius: 10px;} QPushButton:hover {background:#159e51;}")
-
-    def _SwitchButtonToCancel(self):
-        '''Switch the button to "Cancel"'''
-        self.process_btn.setText("Cancel")
-        self.process_btn.setStyleSheet("QPushButton {color: #FFFFFF; font-family:system-ui; font-size: 15px; font-weight: bold; padding: 6px; background-color: #FF0000; border-radius: 10px;} QPushButton:hover {background:#c70000;}")
-            
+    def _SwitchMainButton(self, type):
+        '''Switch the button"'''
+        if type == "compress":
+            self.process_btn.setText("Compress")
+            self.process_btn.setStyleSheet("QPushButton {color: #FFFFFF; font-family: Verdana; font-size: 15px; font-weight: bold; padding: 6px; background-color: #1BC466; border-radius: 10px;} QPushButton:hover {background:#159e51;}")
+        elif type == "cancel":
+            self.process_btn.setText("Cancel")
+            self.process_btn.setStyleSheet("QPushButton {color: #FFFFFF; font-family:system-ui; font-size: 15px; font-weight: bold; padding: 6px; background-color: #FF0000; border-radius: 10px;} QPushButton:hover {background:#c70000;}")
+  
     def toggleCompression(self):
         """Start or cancel the video compression"""
         if self.process_thread and self.process_thread.isRunning():
             # If the process thread is running, cancel it
             self.is_compression_cancelled = True
             self.process_thread.cancel()
-            self._SwitchButtonToCompression()
+            self._SwitchMainButton("compress")
         else:
             # If the process thread is not running, start the compression
             self.is_compression_cancelled = False
-            self._SwitchButtonToCancel()
             
             # Record the start time
             self.start_time = datetime.datetime.now()
@@ -188,12 +139,6 @@ class PixelPress(QWidget, Ui_MainWindow):
                 self.watermark_path = self._cleanPath(self.watermark_file.text())
                 video_stream, audio_stream = self._getOriginalVideo(self.input_path)
 
-                # Check if input and output files are selected
-                if (self.input_path == '' or self.output_path == ''):
-                    self.status_label.setText('Error: Please select an input and output file!')
-                    self.status_label.setStyleSheet("color: red; font-weight: bold; font-size: 14px")
-                    return
-                
                 # Check if an intro file is selected
                 if self.intro_path:
                     intro_stream, intro_audio_stream = self._getOriginalVideo(self.intro_path)
@@ -206,12 +151,13 @@ class PixelPress(QWidget, Ui_MainWindow):
                     position = self.watermark_position.currentText().lower()
                     video_stream = self._addWatermark(video_stream, self.watermark_path, logo_size, position)
 
-                # Compress the video to H.264 codec with CRF=28 and scale to 720p resolution
                 output_stream = ffmpeg.output(video_stream, audio_stream, f'"{self.output_path}"', crf=28, vcodec='libx264', vsync=2)
 
                 # Check if input and output files are selected
-                if (self.input_path == '' or self.output_path == ''):
-                    raise Exception('Please select an input and output file!')
+                if (self.input_path == ''):
+                    raise Exception('Please select an input file!')
+                elif (self.output_path == ''):
+                    raise Exception('Please select an output file!')
                 elif not os.path.exists(self.input_path):
                     raise Exception('Input file does not exist!')
                 elif not self.output_path.endswith('.mp4'):
@@ -221,9 +167,8 @@ class PixelPress(QWidget, Ui_MainWindow):
                     self.runInDebugMode(output_stream)
                 else:
                     self.runInNormalMode(output_stream)
-
+                self._SwitchMainButton("cancel")
             except Exception as e:
-                print(e)
                 self.status_label.setText('Error: ' + str(e))
                 self.status_label.setStyleSheet("color: red; font-weight: bold; font-size: 14px")
 
@@ -274,7 +219,7 @@ class PixelPress(QWidget, Ui_MainWindow):
             self.status_label.setStyleSheet("color: green; font-weight: bold; font-size: 14px")
 
         # Reset the button to "Compress" after the process finishes
-        self._SwitchButtonToCompression()
+        self._SwitchMainButton("compress")
         
         if self.process_thread:
             self.process_thread.wait()    # Wait for the thread to finish
