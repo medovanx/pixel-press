@@ -5,4 +5,4 @@ build/*.exe
 *.ico
 __pycache__/
 desktop.ini
-build/
+build/*

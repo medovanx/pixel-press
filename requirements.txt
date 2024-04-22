@@ -3,3 +3,4 @@ ffmpeg-python
 
 # For building
 auto-py-to-exe
+pillow # Convert .png img to .ico
